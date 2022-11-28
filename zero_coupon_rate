@@ -1,0 +1,31 @@
+import numpy as np
+from sympy import Symbol
+from sympy.solvers import solve
+x = Symbol('x')
+
+inputs = [102, 100, 1, 2, 0.08, 112211] 
+#inputs = [price, face_value, T, k, r, ytm]
+price = inputs[0]
+face_value = inputs[1]
+T = inputs[2]
+k = inputs[3]
+r = inputs[4]
+ytm = inputs[5]
+
+p = 0
+for i in inputs:
+    p = p + 1
+    if i == 112211:
+        inputs[p-1] = x
+
+price = inputs[0]
+face_value = inputs[1]
+T = inputs[2] # T is time left in years
+k = inputs[3] # k is frequency per year
+r = inputs[4] # r is rate per year in decimals
+ytm = inputs[5] # ytm is yield to maturity
+
+rpp = r/k   # rpp is rate per period
+coupon = face_value*rpp
+
+solve((coupon/ytm*k)*(1 - (1 + ytm/k)**-k*T) + face_value*(1 + ytm/k)**-k*T - price)
